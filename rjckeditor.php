@@ -28,6 +28,8 @@ class PlgEditorRJCkeditor extends JPlugin
 		return '<script type="text/javascript">
 CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/dev.php";
 CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=image";
+CKEDITOR.config.filebrowserWindowWidth = 800;
+CKEDITOR.config.filebrowserWindowHeight = "50%";
 CKEDITOR.config.removePlugins = "about";
 </script>';
 	//	return '<script>CKEDITOR.config.filebrowserBrowseUrl = "plugins/editors/rjckeditor/rjfilebrowser/core/connector/php/connector.php";</script>';
