@@ -1,0 +1,6 @@
+Array
+(
+    [action] => upload
+    [method] => ajax
+    [d] => /joom3dev/images/949/
+)
