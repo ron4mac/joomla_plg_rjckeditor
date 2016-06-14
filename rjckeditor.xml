@@ -125,4 +125,7 @@
 
 		</fields>
 	</config>
+	<updateservers>
+		<server type="extension" priority="1" name="RJCKeditor Updates">http://rjcrans.net/jupdates/plg_usernotes/updates.php</server>
+	</updateservers>
 </extension>

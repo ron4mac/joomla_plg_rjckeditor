@@ -26,11 +26,16 @@ class PlgEditorRJCkeditor extends JPlugin
 		setcookie('rjck_juid', base64_encode($bparms), 0, '/');
 
 		return '<script type="text/javascript">
+CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config.js";
+//CKEDITOR.plugins.addExternal( "rjimage", "/joom3dev/plugins/editors/rjckeditor/plugins/rjimage/", "plugin.js" );
+//CKEDITOR.config.extraPlugins = "rjimage";
 CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/dev.php";
 CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=image";
-CKEDITOR.config.filebrowserWindowWidth = 800;
-CKEDITOR.config.filebrowserWindowHeight = "50%";
-CKEDITOR.config.removePlugins = "about";
+//CKEDITOR.config.filebrowserWindowWidth = 800;
+//CKEDITOR.config.filebrowserWindowHeight = "50%";
+//CKEDITOR.config.removePlugins = "about";
+//CKEDITOR.config.removeButtons = "";
+//CKEDITOR.config.disallowedContent = "";
 </script>';
 	//	return '<script>CKEDITOR.config.filebrowserBrowseUrl = "plugins/editors/rjckeditor/rjfilebrowser/core/connector/php/connector.php";</script>';
 	//	return '<script>rjcked_init();</script>';
@@ -206,6 +211,7 @@ CKEDITOR.config.removePlugins = "about";
 		$html[] = '	var editor = evt.editor;';
 		$html[] = '	console.log(CKEDITOR.removePlugins);';
 		$html[] = '	console.log(CKEDITOR.config);';
+//		$html[] = 'CKEDITOR.replace( "'.$id.'", { extraPlugins: "rjimage" } );';
 //		$html[] = '	CKEDITOR.replace( "'.$id.'",';
 //		$html[] = '	{';
 //		$html[] = '		filebrowserBrowseUrl : "/browser/browse.php",';
