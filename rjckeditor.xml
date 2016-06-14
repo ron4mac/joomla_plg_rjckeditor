@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="rjckeditor">rjckeditor.php</filename>
 		<filename>rjckeditor.js</filename>
+		<filename>config.js</filename>
 		<filename>index.html</filename>
 		<folder>fileman</folder>
 		<folder>language</folder>
