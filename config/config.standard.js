@@ -1,8 +1,3 @@
-/**
- * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
- */
-
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
@@ -22,8 +17,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
-		{ name: 'colors' }/*,
-		{ name: 'about' }*/
+		{ name: 'colors' }
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
@@ -34,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.format_tags = 'p;h1;h2;h3;pre';
 
 	// Simplify the dialog windows.
-//	config.removeDialogTabs = 'image:advanced;link:advanced';
+	config.removeDialogTabs = 'image:advanced;link:advanced';
 
 	config.filebrowserWindowWidth = 800;
 	config.filebrowserWindowHeight = '50%';

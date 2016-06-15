@@ -28,7 +28,7 @@ $_SESSION['RJCK_RFMR'] = $bpath.'/'.$uid.'/';									////**** deal with image p
   Contact: Lyubomir Arsov, liubo (at) web-lobby.com
 -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Roxy file manager</title>
+<title>File Manager</title>
 <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

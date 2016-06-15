@@ -3,42 +3,42 @@ defined('_JEXEC') or die;
 
 class PlgEditorRJCkeditor extends JPlugin
 {
-	/**
-	 * Base path for editor files
-	 */
-	protected $_basePath = 'media/plg_rjckeditor/ckeditor/';
+	//protected $pparms = null;	// plg_rjckeditor params
+
+	//public function __construct (&$subject, $config)
+	//{
+	//	parent::__construct($subject, $config);
+	//	$this->pparms = JComponentHelper::getParams('plg_rjckeditor');
+	//}
+
 
 	/**
 	 * Initialises the Editor.
 	 *
 	 * @return  string  JavaScript Initialization string.
 	 */
-	public function onInit()
+	public function onInit ()
 	{
+		$ckpkg = $this->params->get('ck_package', 'standard');
+		$ckver = $this->params->get('ck_version', '4.5.9');
 		$plugBase = JUri::root().'plugins/editors/rjckeditor/';
-	//	JHtml::_('behavior.framework');
-		JHtml::_('script', '//cdn.ckeditor.com/4.5.9/standard/ckeditor.js', false, false, false, false);
-	//	JHtml::_('script', $this->_basePath . 'ckeditor.js', false, false, false, false);
-	//	JHtml::_('script', $plugBase.'rjckeditor.js', false, false, false, false);
-	//	JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
-	//	JHtml::_('stylesheet', $this->_basePath . 'css/configuration.css');
+		$doc = JFactory::getDocument();
+		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$bparms = JFactory::getUser()->id . '::' . JUri::root(true) . '/images';
 		setcookie('rjck_juid', base64_encode($bparms), 0, '/');
 
 		return '<script type="text/javascript">
-CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config.js";
-//CKEDITOR.plugins.addExternal( "rjimage", "/joom3dev/plugins/editors/rjckeditor/plugins/rjimage/", "plugin.js" );
-//CKEDITOR.config.extraPlugins = "rjimage";
-CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/dev.php";
-CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=image";
-//CKEDITOR.config.filebrowserWindowWidth = 800;
-//CKEDITOR.config.filebrowserWindowHeight = "50%";
-//CKEDITOR.config.removePlugins = "about";
-//CKEDITOR.config.removeButtons = "";
-//CKEDITOR.config.disallowedContent = "";
+	CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config/config.'.$ckpkg.'.js";
+	//CKEDITOR.plugins.addExternal( "rjimage", "/joom3dev/plugins/editors/rjckeditor/plugins/rjimage/", "plugin.js" );
+	//CKEDITOR.config.extraPlugins = "rjimage";
+	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/dev.php";
+	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=image";
+	//CKEDITOR.config.filebrowserWindowWidth = 800;
+	//CKEDITOR.config.filebrowserWindowHeight = "50%";
+	//CKEDITOR.config.removePlugins = "about";
+	//CKEDITOR.config.removeButtons = "";
+	//CKEDITOR.config.disallowedContent = "";
 </script>';
-	//	return '<script>CKEDITOR.config.filebrowserBrowseUrl = "plugins/editors/rjckeditor/rjfilebrowser/core/connector/php/connector.php";</script>';
-	//	return '<script>rjcked_init();</script>';
 	}
 
 	/**
@@ -48,7 +48,7 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  string Javascript
 	 */
-	public function onSave($id)
+	public function onSave ($id)
 	{
 		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getData();\n";
 	}
@@ -60,7 +60,7 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  string  Javascript
 	 */
-	public function onGetContent($id)
+	public function onGetContent ($id)
 	{
 		return "Joomla.editors.instances['$id'].getData();\n";
 	}
@@ -73,7 +73,7 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  string  Javascript
 	 */
-	public function onSetContent($id, $content)
+	public function onSetContent ($id, $content)
 	{
 		return "Joomla.editors.instances['$id'].setData($content);\n";
 	}
@@ -83,19 +83,15 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  boolean
 	 */
-	public function onGetInsertMethod()
+	public function onGetInsertMethod ()
 	{
 		static $done = false;
 
 		// Do this only once.
-		if (!$done)
-		{
+		if (!$done) {
 			$done = true;
 			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor)
-				{
-					Joomla.editors.instances[editor].insertHtml(text);\n
-			}";
+			$js = "\nfunction jInsertEditorText (text, editor) { Joomla.editors.instances[editor].insertHtml(text); }\n";
 			$doc->addScriptDeclaration($js);
 		}
 
@@ -119,29 +115,25 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  string  HTML Output
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
-		$id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay ($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		if (empty($id))
-		{
+		if (empty($id)) {
 			$id = $name;
 		}
 
 		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric($width))
-		{
+		if (is_numeric($width)) {
 			$width .= 'px';
 		}
 
-		if (is_numeric($height))
-		{
+		if (is_numeric($height)) {
 			$height .= 'px';
 		}
 
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
-		$options	= new stdClass;
+		$options = new stdClass;
 /*
 		$options->mode = $mode;
 		$options->smartIndent = true;
@@ -203,13 +195,13 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 			$options->tabMode = 'shift';
 		}
 */
+
 		$html = array();
 		$html[]	= "<textarea name=\"$name\" class=\"ckeditor\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = 'CKEDITOR.on( "instanceReady", function( evt ) {';
 		$html[] = '	var editor = evt.editor;';
-		$html[] = '	console.log(CKEDITOR.removePlugins);';
 		$html[] = '	console.log(CKEDITOR.config);';
 //		$html[] = 'CKEDITOR.replace( "'.$id.'", { extraPlugins: "rjimage" } );';
 //		$html[] = '	CKEDITOR.replace( "'.$id.'",';
@@ -257,7 +249,7 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 	 *
 	 * @return  string HTML
 	 */
-	protected function _displayButtons($name, $buttons, $asset, $author)
+	protected function _displayButtons ($name, $buttons, $asset, $author)
 	{
 		$return = '';
 
@@ -268,21 +260,16 @@ CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=i
 
 		$results = (array) $this->update($args);
 
-		if ($results)
-		{
-			foreach ($results as $result)
-			{
-				if (is_string($result) && trim($result))
-				{
+		if ($results) {
+			foreach ($results as $result) {
+				if (is_string($result) && trim($result)) {
 					$return .= $result;
 				}
 			}
 		}
 
-		if (is_array($buttons) || (is_bool($buttons) && $buttons))
-		{
+		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
