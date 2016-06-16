@@ -3,15 +3,6 @@ defined('_JEXEC') or die;
 
 class PlgEditorRJCkeditor extends JPlugin
 {
-	//protected $pparms = null;	// plg_rjckeditor params
-
-	//public function __construct (&$subject, $config)
-	//{
-	//	parent::__construct($subject, $config);
-	//	$this->pparms = JComponentHelper::getParams('plg_rjckeditor');
-	//}
-
-
 	/**
 	 * Initialises the Editor.
 	 *
@@ -25,19 +16,12 @@ class PlgEditorRJCkeditor extends JPlugin
 		$doc = JFactory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$bparms = JFactory::getUser()->id . '::' . JUri::root(true) . '/images';
-		setcookie('rjck_juid', base64_encode($bparms), 0, '/');
+		setcookie('rjck_juid', base64_encode($bparms), 0, JUri::root(true).'/plugins/editors/rjckeditor');
 
 		return '<script type="text/javascript">
 	CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config/config.'.$ckpkg.'.js";
-	//CKEDITOR.plugins.addExternal( "rjimage", "/joom3dev/plugins/editors/rjckeditor/plugins/rjimage/", "plugin.js" );
-	//CKEDITOR.config.extraPlugins = "rjimage";
-	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/dev.php";
-	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/dev.php?type=image";
-	//CKEDITOR.config.filebrowserWindowWidth = 800;
-	//CKEDITOR.config.filebrowserWindowHeight = "50%";
-	//CKEDITOR.config.removePlugins = "about";
-	//CKEDITOR.config.removeButtons = "";
-	//CKEDITOR.config.disallowedContent = "";
+	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/index.php";
+	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/index.php?type=image";
 </script>';
 	}
 
@@ -133,69 +117,6 @@ class PlgEditorRJCkeditor extends JPlugin
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
-		$options = new stdClass;
-/*
-		$options->mode = $mode;
-		$options->smartIndent = true;
-
-		// Enabled the line numbers.
-		if ($this->params->get('lineNumbers') == "1")
-		{
-			$options->lineNumbers = true;
-		}
-
-		if ($this->params->get('autoFocus') == "1")
-		{
-			$options->autofocus	= true;
-		}
-
-		if ($this->params->get('autoCloseBrackets') == "1")
-		{
-			$options->autoCloseBrackets	= $autoCloseBrackets;
-		}
-
-		if ($this->params->get('autoCloseTags') == "1")
-		{
-			$options->autoCloseTags	= $autoCloseTags;
-		}
-
-		if ($this->params->get('matchTags') == "1")
-		{
-			$options->matchTags = $matchTags;
-			JHtml::_('script', $this->_basePath . 'js/matchtags.js', false, false, false, false);
-		}
-
-		if ($this->params->get('matchBrackets') == "1")
-		{
-			$options->matchBrackets = $matchBrackets;
-			JHtml::_('script', $this->_basePath . 'js/matchbrackets.js', false, false, false, false);
-		}
-
-		if ($this->params->get('marker-gutter') == "1")
-		{
-			$options->foldGutter = $fold;
-			$options->gutters = array('CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'breakpoints');
-			JHtml::_('script', $this->_basePath . 'js/foldcode.js', false, false, false, false);
-			JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
-		}
-
-		if ($this->params->get('theme', '') == 'ambiance')
-		{
-			$options->theme	= 'ambiance';
-			JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
-		}
-
-		if ($this->params->get('lineWrapping') == "1")
-		{
-			$options->lineWrapping = true;
-		}
-
-		if ($this->params->get('tabmode', '') == 'shift')
-		{
-			$options->tabMode = 'shift';
-		}
-*/
-
 		$html = array();
 		$html[]	= "<textarea name=\"$name\" class=\"ckeditor\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
@@ -232,7 +153,7 @@ class PlgEditorRJCkeditor extends JPlugin
 //		$html[] = '			marker.innerHTML = "●"';
 //		$html[] = '			return marker';
 //		$html[] = '		}';
-		$html[] = '		Joomla.editors.instances[\'' . $id . '\'] = editor;';
+		$html[] = '	Joomla.editors.instances[\'' . $id . '\'] = editor;';
 		$html[] = '})';
 		$html[] = '</script>';
 

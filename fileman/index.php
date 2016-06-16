@@ -30,18 +30,12 @@ $_SESSION['RJCK_RFMR'] = $bpath.'/'.$uid.'/';									////**** deal with image p
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>File Manager</title>
 <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
-<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/main.min.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
-<script type="text/javascript" src="js/filetypes.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
-<script type="text/javascript" src="js/main.js"></script>
-<script type="text/javascript" src="js/utils.js"></script>
-<script type="text/javascript" src="js/file.js"></script>
-<script type="text/javascript" src="js/directory.js"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/jquery-dateFormat.min.js"></script>
-<script type="text/javascript">
-</script>
 </head>
 <body>
 <table cellpadding="0" cellspacing="0" id="wraper">
