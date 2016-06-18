@@ -16,6 +16,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		$doc = JFactory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$doc->addScript($plugBase.'rjckeditor.js');
+		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
 
 		return '<script type="text/javascript">
 	CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config/config.'.$ckpkg.'.js";
@@ -158,7 +159,9 @@ class PlgEditorRJCkeditor extends JPlugin
 
 		$session = JFactory::getSession();
 	////**** need to deal with image path for user/frontend/backend/admin etc. (may need to create path)
-		$session->set('RJCK_RFMR', JUri::root(true).'/images/'.JFactory::getUser()->id.'/');
+		$rpath = JUri::root(true).'/images/';
+		if (JFactory::getApplication()->isSite()) $rpath .= JFactory::getUser()->id.'/';
+		$session->set('RJCK_RFMR', $rpath);
 		return implode("\n", $html);
 	}
 

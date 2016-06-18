@@ -1,8 +1,7 @@
 <?php
 require_once 'php/security.inc.php';
-
-//$_SESSION['RJCK_RFMR'] = $bpath.'/'.$uid.'/';									////**** deal with image path for user/frontend/backend/admin etc. (may need to create path)
-//@mkdir($_SERVER['DOCUMENT_ROOT'].$_SESSION['RJCK_RFMR'], 0755);
+//**** make directory if it doesn't exist (this accomodates user files)
+@mkdir($_SERVER['DOCUMENT_ROOT'].$_SESSION['RJCK_RFMR'], 0755);
 ?>
 <!DOCTYPE html>
 <html>

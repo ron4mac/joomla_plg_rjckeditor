@@ -22,11 +22,17 @@
 */
 
 define('_JEXEC', 1);
-define('JPATH_BASE', realpath(dirname(__FILE__).'/../../../..'));
+$JPB = realpath(dirname(__FILE__).'/../../../..');
+$APP = 'site';
+if (isset($_COOKIE['rjck_rfmr']) && $_COOKIE['rjck_rfmr']) {
+	$JPB .= '/administrator';
+	$APP = 'administrator';
+}
+define('JPATH_BASE', $JPB);
  
 require_once ( JPATH_BASE. '/includes/defines.php' );
 require_once ( JPATH_BASE. '/includes/framework.php' );
-$mainframe = JFactory::getApplication('site');
+$mainframe = JFactory::getApplication($APP);
 $mainframe->initialise();
 
 $session = JFactory::getSession();
