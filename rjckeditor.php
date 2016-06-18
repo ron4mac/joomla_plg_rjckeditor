@@ -15,7 +15,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		$plugBase = JUri::root().'plugins/editors/rjckeditor/';
 		$doc = JFactory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
-		$doc->addScript('plugins/editors/rjckeditor/rjckeditor.js');
+		$doc->addScript($plugBase.'rjckeditor.js');
 
 		return '<script type="text/javascript">
 	CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config/config.'.$ckpkg.'.js";
