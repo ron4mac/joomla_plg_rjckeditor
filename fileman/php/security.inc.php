@@ -20,6 +20,19 @@
 
   Contact: Lyubomir Arsov, liubo (at) web-lobby.com
 */
+
+define('_JEXEC', 1);
+define('JPATH_BASE', realpath(dirname(__FILE__).'/../../../..'));
+ 
+require_once ( JPATH_BASE. '/includes/defines.php' );
+require_once ( JPATH_BASE. '/includes/framework.php' );
+$mainframe = JFactory::getApplication('site');
+$mainframe->initialise();
+
+$session = JFactory::getSession();
+$_SESSION['RJCK_RFMR'] = $session->get('RJCK_RFMR');
+$_SESSION['RJCK_RFMR'] or die('No Access Allowed');
+
 function checkAccess($action){
   if(!session_id())
     session_start();

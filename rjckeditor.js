@@ -1,94 +1,260 @@
-/**
- * @file Plugin for replacing filebrowser dialog with dialog from Drupal media module
- */
+
 (function($) {
 
-  // Traverse through the content definition and attach mediabrowser to
-  // elements with 'filebrowser' attribute.
-  //
-  // @param String
-  //            dialogName Dialog name.
-  // @param {CKEDITOR.dialog.definitionObject}
-  //            definition Dialog definition.
-  // @param {Array}
-  //            elements Array of {@link CKEDITOR.dialog.definition.content}
-  //            objects.
-  function attachMediaBrowser(editor, dialogName, definition, elements) {
-    if (!elements || !elements.length)
-      return;
+// jam in top,right,bottom,left margin setting for inserted image
 
-    var element, fileInput;
+CKEDITOR.on('dialogDefinition', function (ev) {
+	// Take the dialog name and its definition from the event data.
+	var dialogName = ev.data.name;	console.log(dialogName);
+	var dialogDefinition = ev.data.definition;	console.log(dialogDefinition);
 
-    for (var i = elements.length; i--; ) {
-      element = elements[ i ];
+	// **************************************
+	// IMAGE DIALOG
+	// **************************************
+	if (dialogName == 'image') {
 
-      if (element.type == 'hbox' || element.type == 'vbox' || element.type == 'fieldset')
-        attachMediaBrowser(editor, dialogName, definition, element.children);
+		// **************************************
+		// IMAGE INFO TAB
+		// **************************************
+		var imageInfoTab = dialogDefinition.getContents('info');
 
-      if (!element.filebrowser)
-        continue;
+		// remove the hspace and vspace fields
+		imageInfoTab.remove('txtHSpace');
+		imageInfoTab.remove('txtVSpace');
 
-      if (typeof element.filebrowser == 'string') {
-        var fb = {
-          action: (element.type == 'fileButton') ? 'QuickUpload' : 'Browse',
-          target: element.filebrowser
-        };
-        element.filebrowser = fb;
-      }
+		// setup constants and other vars (recreating some functionality)
+		var IMAGE = 1,
+			LINK = 2,
+			PREVIEW = 4,
+			CLEANUP = 8,
+			regexGetSize = /^\s*(\d+)((px)|\%)?\s*$/i,
+			regexGetSizeOrEmpty = /(^\s*(\d+)((px)|\%)?\s*$)|^$/i,
+			pxLengthRegex = /^\d+px$/;
 
-      if (element.filebrowser.action == 'Browse') {
-        element.onClick = mediaBrowser;
-    //    element.label = 'Upload/' + editor.lang.common.browseServer; // Fix language here.
-        // Make sure the button is visible since we are handling it with media.
-        element.hidden = false;
-      } else if (element.filebrowser.action == 'QuickUpload' && element[ 'for' ]) {
-        // We don't need two buttons, hide this one and just keep the browse button.
-        element.hidden = true;
-      }
-    }
-  }
+		// function to update preview
+		var updatePreview = function (dialog) {
+			//Don't load before onShow.
+			if (!dialog.originalElement || !dialog.preview)
+			return 1;
 
-  function mediaBrowser(evt) {
-    var dialog = evt.data.dialog;
-    // Media z-index is 10002 so we need to be below that.
-    var dialogElement = dialog.getElement().getFirst();
-    dialogElement.setStyle('z-index', 10001);
-    // Invoke the media popup for file selection.
-    var mediaIframe = Drupal.media.popups.mediaBrowser(function(mediaFiles) {
-      if (mediaFiles.length > 0) {
-        // There is probably a better way of getting the url for the file
-        // but media returns the object with an absolute url and the uri.
-        // We don't have access to file_create_url in javascript so we can't
-        // use that. For now, just remove the server name from the absolute
-        // url to get the relative. FIX THIS!!!
-        var fileUrl = mediaFiles[0].url.replace(location.origin, '');
-        var parts = evt.sender.filebrowser.target.split(':');
-        dialog.setValueOf(parts[0], parts[1], fileUrl);
-      }
-    });
-    $(mediaIframe).parent().css({'z-index':'10002'});
-  }
+			// Read attributes and update imagePreview;
+			dialog.commitContent(PREVIEW, dialog.preview);
+			return 0;
+		}
 
-  CKEDITOR.plugins.add('mediaBrowser',
-          {
-            requires: ['dialog', 'media'],
-            init: function(editor) {
-              // Needed to keep things happy.
-            }
-          });
+		// function to commit changes internally
 
-  CKEDITOR.on('dialogDefinition', function(evt) {
-    var definition = evt.data.definition,
-            element;
-    // Associate mediabrowser to elements with 'filebrowser' attribute.
-    for (var i = 0; i < definition.contents.length; ++i) {
-      if ((element = definition.contents[ i ])) {
-        attachMediaBrowser(evt.editor, evt.data.name, definition, element.elements);
-        if (element.hidden && element.filebrowser && element.type != 'fileButton') {
-         // element.hidden = false;
-        }
-      }
-    }
-  });
+		// Avoid recursions.
+		var incommit;
+
+		// Synchronous field values to other impacted fields is required, e.g. border
+		// size change should alter inline-style text as well.
+		function commitInternally (targetFields) {
+			if (incommit) return;
+			incommit = 1;
+
+			var dialog = this.getDialog(),
+				element = dialog.imageElement;
+			if (element) {
+				// Commit this field and broadcast to target fields.
+				this.commit(IMAGE, element);
+
+				targetFields = [].concat(targetFields);
+				var length = targetFields.length,
+					field;
+				for (var i = 0; i < length; i++) {
+					field = dialog.getContentElement.apply(dialog, targetFields[ i ].split(':'));
+					// May cause recursion.
+					field && field.setup(IMAGE, element);
+				}
+			}
+
+			incommit = 0;
+		}
+
+		// new margin fields
+		imageInfoTab.add( {
+			type: 'fieldset',
+			label: '&nbsp;Margins&nbsp;',
+			children:
+				[
+				{
+				type: 'vbox',
+				padding: 1,
+				width: '100px',
+				label: 'Margins',
+				align: 'center',
+				children:
+				[
+				// margin-top
+				{
+					type: 'text',
+					id: 'txtMarginTop',
+					width: '40px',
+					labelLayout: 'horizontal',
+					label: 'Top',
+					'default': '',
+					onKeyUp: function () { updatePreview(this.getDialog()); },
+					onChange: function () { commitInternally.call(this, 'advanced:txtdlgGenStyle'); },
+					validate: CKEDITOR.dialog.validate.integer(ev.editor.lang.image.validateVSpace),
+					setup: function (type, element) {
+						if (type == IMAGE) {
+							var value,
+								marginTopPx,
+								marginTopStyle = element.getStyle('margin-top');
+							marginTopStyle = marginTopStyle && marginTopStyle.match(pxLengthRegex);
+							marginTopPx = parseInt(marginTopStyle, 10);
+							value = marginTopPx;
+							isNaN(parseInt(value, 10)) && (value = element.getAttribute('vspace'));
+							this.setValue(value);
+						}
+					},
+					commit: function (type, element, internalCommit) {
+						var value = parseInt(this.getValue(), 10);
+						if (type == IMAGE || type == PREVIEW) {
+							if (!isNaN(value)) {
+								element.setStyle('margin-top', CKEDITOR.tools.cssLength(value));
+							} else if (!value && this.isChanged()) {
+								element.removeStyle('margin-top');
+							}
+							if (!internalCommit && type == IMAGE) element.removeAttribute('vspace');
+						} else if (type == CLEANUP) {
+							element.removeAttribute('vspace');
+							element.removeStyle('margin-top');
+						}
+					}
+				}, // end margin-top
+
+				// margin-right
+				{
+					type: 'text',
+					id: 'txtMarginRight',
+					width: '40px',
+					labelLayout: 'horizontal',
+					label: 'Right',
+					'default': '',
+					onKeyUp: function () { updatePreview(this.getDialog()); },
+					onChange: function () { commitInternally.call(this, 'advanced:txtdlgGenStyle'); },
+					validate: CKEDITOR.dialog.validate.integer(ev.editor.lang.image.validateHSpace),
+					setup: function (type, element) {
+						if (type == IMAGE) {
+							var value,
+								marginRightPx,
+								marginRightStyle = element.getStyle('margin-right');
+							marginRightStyle = marginRightStyle && marginRightStyle.match(pxLengthRegex);
+							marginRightPx = parseInt(marginRightStyle, 10);
+							value = marginRightPx;
+							isNaN(parseInt(value, 10)) && (value = element.getAttribute('hspace'));
+							this.setValue(value);
+						}
+					},
+					commit: function (type, element, internalCommit) {
+						var value = parseInt(this.getValue(), 10);
+						if (type == IMAGE || type == PREVIEW) {
+							if (!isNaN(value)) {
+								element.setStyle('margin-right', CKEDITOR.tools.cssLength(value));
+							} else if (!value && this.isChanged()) {
+								element.removeStyle('margin-right');
+							}
+							if (!internalCommit && type == IMAGE) element.removeAttribute('hspace');
+						} else if (type == CLEANUP) {
+							element.removeAttribute('hspace');
+							element.removeStyle('margin-right');
+						}
+					}
+				}, // end margin-right
+
+				// margin-bottom
+				{
+					type: 'text',
+					id: 'txtMarginBottom',
+					width: '40px',
+					labelLayout: 'horizontal',
+					label: 'Bottom',
+					'default': '',
+					onKeyUp: function () { updatePreview(this.getDialog()); },
+					onChange: function () { commitInternally.call(this, 'advanced:txtdlgGenStyle'); },
+					validate: CKEDITOR.dialog.validate.integer(ev.editor.lang.image.validateVSpace),
+					setup: function (type, element) {
+						if (type == IMAGE) {
+							var value,
+								marginBottomPx,
+								marginBottomStyle = element.getStyle('margin-bottom');
+							marginBottomStyle = marginBottomStyle && marginBottomStyle.match(pxLengthRegex);
+							marginBottomPx = parseInt(marginBottomStyle, 10);
+							value = marginBottomPx;
+							isNaN(parseInt(value, 10)) && (value = element.getAttribute('vspace'));
+							this.setValue(value);
+						}
+					},
+					commit: function (type, element, internalCommit) {
+						var value = parseInt(this.getValue(), 10);
+						if (type == IMAGE || type == PREVIEW) {
+							if (!isNaN(value)) {
+								element.setStyle('margin-bottom', CKEDITOR.tools.cssLength(value));
+							} else if (!value && this.isChanged()) {
+								element.removeStyle('margin-bottom');
+							}
+							if (!internalCommit && type == IMAGE) element.removeAttribute('vspace');
+						} else if (type == CLEANUP) {
+							element.removeAttribute('vspace');
+							element.removeStyle('margin-bottom');
+						}
+					}
+				}, // end margin-bottom
+
+				// margin-left
+				{
+					type: 'text',
+					id: 'txtMarginLeft',
+					width: '40px',
+					labelLayout: 'horizontal',
+					label: 'Left',
+					'default': '',
+					onKeyUp: function () { updatePreview(this.getDialog()); },
+					onChange: function () { commitInternally.call(this, 'advanced:txtdlgGenStyle'); },
+					validate: CKEDITOR.dialog.validate.integer(ev.editor.lang.image.validateHSpace),
+					setup: function (type, element) {
+						if (type == IMAGE) {
+							var value,
+								marginLeftPx,
+								marginLeftStyle = element.getStyle('margin-left');
+							marginLeftStyle = marginLeftStyle && marginLeftStyle.match(pxLengthRegex);
+							marginLeftPx = parseInt(marginLeftStyle, 10);
+							value = marginLeftPx;
+							isNaN(parseInt(value, 10)) && (value = element.getAttribute('hspace'));
+							this.setValue(value);
+						}
+					},
+					commit: function (type, element, internalCommit) {
+						var value = parseInt(this.getValue(), 10);
+						if (type == IMAGE || type == PREVIEW) {
+							if (!isNaN(value)) {
+								element.setStyle('margin-left', CKEDITOR.tools.cssLength(value));
+							} else if (!value && this.isChanged()) {
+								element.removeStyle('margin-left');
+							}
+							if (!internalCommit && type == IMAGE) element.removeAttribute('hspace');
+						} else if (type == CLEANUP) {
+							element.removeAttribute('hspace');
+							element.removeStyle('margin-left');
+						}
+					}
+				} // end margin-left
+				]
+				}
+			]
+		}, 'txtBorder');
+
+		// this syntax chokes in Safari and others (I think "default" is reserved)
+		//imageInfoTab.get('txtBorder').default = '0';
+		
+		// this syntax works...
+		// set default border to zero
+		var imageTxtBorder = imageInfoTab.get('txtBorder');
+		imageTxtBorder['default'] = '0';
+
+	}
+});
 
 })(jQuery);

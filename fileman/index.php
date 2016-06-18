@@ -1,7 +1,8 @@
 <?php
-session_start();
-list($uid,$bpath) = explode('::',base64_decode($_COOKIE['rjck_juid']));
-$_SESSION['RJCK_RFMR'] = $bpath.'/'.$uid.'/';									////**** deal with image path for user/frontend/backend/admin etc. (may need to create path)
+require_once 'php/security.inc.php';
+
+//$_SESSION['RJCK_RFMR'] = $bpath.'/'.$uid.'/';									////**** deal with image path for user/frontend/backend/admin etc. (may need to create path)
+//@mkdir($_SERVER['DOCUMENT_ROOT'].$_SESSION['RJCK_RFMR'], 0755);
 ?>
 <!DOCTYPE html>
 <html>
