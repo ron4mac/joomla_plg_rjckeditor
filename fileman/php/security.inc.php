@@ -22,7 +22,7 @@
 */
 
 define('_JEXEC', 1);
-$JPB = realpath(dirname(__FILE__).'/../../../..');
+$JPB = realpath(dirname(__FILE__).'/../../../../../');
 $APP = 'site';
 if (isset($_COOKIE['rjck_rfmr']) && $_COOKIE['rjck_rfmr']) {
 	$JPB .= '/administrator';

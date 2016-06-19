@@ -19,7 +19,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
 
 		return '<script type="text/javascript">
-	CKEDITOR.config.customConfig = "/joom3dev/plugins/editors/rjckeditor/config/config.'.$ckpkg.'.js";
+	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
 	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/index.php";
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/index.php?type=image";
 </script>';

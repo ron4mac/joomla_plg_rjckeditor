@@ -257,4 +257,4 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 	}
 });
 
-})(jQuery);
+})(/*jQuery*/);
