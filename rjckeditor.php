@@ -3,6 +3,14 @@ defined('_JEXEC') or die;
 
 class PlgEditorRJCkeditor extends JPlugin
 {
+	protected $inFront = false;
+
+	public function __construct(&$subject, $config = array())
+	{
+		$this->infront = JFactory::getApplication()->isSite();
+		parent::__construct($subject, $config);
+	}
+
 	/**
 	 * Initialises the Editor.
 	 *
@@ -10,8 +18,9 @@ class PlgEditorRJCkeditor extends JPlugin
 	 */
 	public function onInit ()
 	{
-		$ckpkg = $this->params->get('ck_package', 'standard');
 		$ckver = $this->params->get('ck_version', '4.5.9');
+		$ckpkg = $this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', '');
+		$ckpkg = $ckpkg ?: $this->params->get('ck_package', 'standard');
 		$plugBase = JUri::root().'plugins/editors/rjckeditor/';
 		$doc = JFactory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
@@ -160,7 +169,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		$session = JFactory::getSession();
 	////**** need to deal with image path for user/frontend/backend/admin etc. (may need to create path)
 		$rpath = JUri::root(true).'/images/';
-		if (JFactory::getApplication()->isSite()) $rpath .= JFactory::getUser()->id.'/';
+		if ($this->infront) $rpath .= JFactory::getUser()->id.'/';
 		$session->set('RJCK_RFMR', $rpath);
 		return implode("\n", $html);
 	}

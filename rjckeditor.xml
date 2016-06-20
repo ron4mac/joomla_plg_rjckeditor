@@ -22,6 +22,11 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="plugins/editors/rjckeditor">
+				<field name="ck_version" type="ckedver"
+					label="PLG_RJCKEDITOR_CKVER_LABEL"
+					description="PLG_RJCKEDITOR_CKVER_DESC"
+				>
+				</field>
 				<field name="ck_package" type="radio" default="standard"
 					class="btn-group btn-group-yesno"
 					label="PLG_RJCKEDITOR_CKPKG_LABEL"
@@ -31,13 +36,26 @@
 					<option value="standard">Standard</option>
 					<option value="full">Full</option>
 				</field>
-				<field name="ck_version" type="ckedver"
-					label="PLG_RJCKEDITOR_CKVER_LABEL"
-					description="PLG_RJCKEDITOR_CKVER_DESC"
+				<field type="spacer" name="spacer_fe" label="PLG_RJCKEDITOR_FRONT_CFG" />
+				<field name="ck_package_fe" type="list" default=""
+					label="PLG_RJCKEDITOR_CKPKG_LABEL"
+					description="PLG_RJCKEDITOR_CKPKG_DESC"
 				>
+					<option value="">JDEFAULT</option>
+					<option value="basic">Basic</option>
+					<option value="standard">Standard</option>
+					<option value="full">Full</option>
 				</field>
-			<!--	<field name="" type="" >
-				</field> -->
+				<field type="spacer" name="spacer_be" label="PLG_RJCKEDITOR_BACK_CFG" />
+				<field name="ck_package_be" type="list" default=""
+					label="PLG_RJCKEDITOR_CKPKG_LABEL"
+					description="PLG_RJCKEDITOR_CKPKG_DESC"
+				>
+					<option value="">JDEFAULT</option>
+					<option value="basic">Basic</option>
+					<option value="standard">Standard</option>
+					<option value="full">Full</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
