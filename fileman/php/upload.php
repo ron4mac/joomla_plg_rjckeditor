@@ -49,6 +49,12 @@ if(is_dir(fixPath($path))){
       if(is_file($filePath)){
          @chmod ($filePath, octdec(FILEPERMISSIONS));
       }
+      /* \\\\ RJCKEDITOR addition */
+      if($isUploaded && RoxyFile::IsImage($filename)){
+      	require_once 'imager.php';
+      	orient_and_make_thumb ($filePath);
+      }
+      /* //// */
       if($isUploaded && RoxyFile::IsImage($filename) && (intval(MAX_IMAGE_WIDTH) > 0 || intval(MAX_IMAGE_HEIGHT) > 0)){
         RoxyImage::Resize($filePath, $filePath, intval(MAX_IMAGE_WIDTH), intval(MAX_IMAGE_HEIGHT));
       }
