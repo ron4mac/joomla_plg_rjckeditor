@@ -3,7 +3,7 @@ defined('_JEXEC') or die;
 
 class PlgEditorRJCkeditor extends JPlugin
 {
-	protected $inFront = false;
+	protected $infront = false;
 
 	public function __construct(&$subject, $config = array())
 	{
@@ -19,7 +19,13 @@ class PlgEditorRJCkeditor extends JPlugin
 	public function onInit ()
 	{
 		$ckver = $this->params->get('ck_version', '4.5.9');
-		$ckpkg = $this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', '');
+		$ckgrpcfg = get_object_vars($this->params->get('ck_grp_cfg', null));
+		$ugrps = JFactory::getUser()->groups;
+		$ckpkg = '';
+		foreach($ugrps as $g=>$s) {
+			$ckpkg = $ckgrpcfg[($this->infront ? 'f' : 'b').'_'.$g];
+		}
+		$ckpkg = $ckpkg ?: ($this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', ''));
 		$ckpkg = $ckpkg ?: $this->params->get('ck_package', 'standard');
 		$plugBase = JUri::root().'plugins/editors/rjckeditor/';
 		$doc = JFactory::getDocument();
