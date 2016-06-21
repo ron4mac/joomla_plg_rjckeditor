@@ -6,4 +6,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.filebrowserWindowHeight = '50%';
 	config.removePlugins = 'about,bidi,iframe,flash,font,language,preview,save,smiley';
 	config.removeButtons = '';
+
+	// extra (local) plugins
+	config.extraPlugins = 'readmore';
+	// allow 'readmore' content
+	config.extraAllowedContent = 'hr[id,class]';
 };

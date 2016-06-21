@@ -16,6 +16,7 @@
 		<filename>index.html</filename>
 		<folder>config</folder>
 		<folder>fields</folder>
+		<folder>plugins</folder>
 		<folder>fileman</folder>
 		<folder>language</folder>
 	</files>

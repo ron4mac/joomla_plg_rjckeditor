@@ -19,11 +19,12 @@ class PlgEditorRJCkeditor extends JPlugin
 	public function onInit ()
 	{
 		$ckver = $this->params->get('ck_version', '4.5.9');
-		$ckgrpcfg = get_object_vars($this->params->get('ck_grp_cfg', null));
+		$ckgrpcfg = get_object_vars($this->params->get('ck_grp_cfg', (object) ''));
 		$ugrps = JFactory::getUser()->groups;
 		$ckpkg = '';
 		foreach($ugrps as $g=>$s) {
-			$ckpkg = $ckgrpcfg[($this->infront ? 'f' : 'b').'_'.$g];
+			$cx = ($this->infront ? 'f' : 'b').'_'.$g;
+			if (isset($ckgrpcfg[$cx])) $ckpkg = $ckgrpcfg[$cx];
 		}
 		$ckpkg = $ckpkg ?: ($this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', ''));
 		$ckpkg = $ckpkg ?: $this->params->get('ck_package', 'standard');
@@ -34,6 +35,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
 
 		return '<script type="text/javascript">
+	CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
 	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/index.php";
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/index.php?type=image";
