@@ -13,7 +13,9 @@ class JFormFieldGrpcfg extends JFormField
 			'' => 'Default',
 			'basic' => 'Basic',
 			'standard' => 'Standard',
-			'full' => 'Full'
+			'standard-all' => 'Standard(all)',
+			'full' => 'Full',
+			'full-all' => 'Full(all)'
 			);
 
 	public function __construct ($form = null)
