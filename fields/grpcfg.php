@@ -7,18 +7,29 @@ class JFormFieldGrpcfg extends JFormField
 	protected $type = 'Grpcfg'; //the form field type
 
 	protected $classes = '';	//additional classes
-	protected $extras = '';	//additional attributes
+	protected $extras = '';		//additional attributes
 
-	// JFactory::getDocument()->addScriptDeclaration(
+	protected $pkgs = array(
+			'' => 'Default',
+			'basic' => 'Basic',
+			'standard' => 'Standard',
+			'full' => 'Full'
+			);
 
-	protected function getInput()
+	public function __construct ($form = null)
+	{
+		JFactory::getDocument()->addStyleDeclaration('#rjckgcfg th { text-align: center; }
+#rjckgcfg th, #rjckgcfg td { padding: 4px 4px; }
+.rjckcsel { width:auto; }');
+		parent::__construct($form);
+	}
+
+	protected function getInput ()
 	{
 		$groups = $this->getGroups();
-	//	echo'<pre>';var_dump($groups);echo'</pre>';
-		$html = '<table><tr><th rowspan="2" align="left" style="vertical-align:bottom">Group</th><th colspan="4">Frontend</th><th colspan="4">Backend</th></tr>'."\n";
-		$html .= '<tr><th width="10%">Default</th><th width="10%">Basic</th><th width="10%">Standard</th><th width="10%">Full</th><th width="10%">Default</th><th width="10%">Basic</th><th width="10%">Standard</th><th width="10%">Full</th></tr>'."\n";
+		$html = '<table id="rjckgcfg"><tr><th style="text-align:left;">Group</th><th>Frontend</th><th>Backend</th></tr>'."\n";
 		foreach ($groups as $grp) {
-			$html .= '<tr>'.$this->grprads($grp['id'], $grp['title']).'</tr>'."\n";
+			$html .= '<tr>'.$this->grpsels($grp['id'], $grp['title']).'</tr>'."\n";
 		}
 		$html .= '</table>';
 
@@ -35,26 +46,24 @@ class JFormFieldGrpcfg extends JFormField
 		return $html;
 	}
 
-	private function grprads ($id, $title)
+	private function grpsels ($id, $title)
 	{
-		$html = '<td>'.$title.'</td>';
-		$html .= $this->cfgrad($id, 'f', '', true);
-		$html .= $this->cfgrad($id, 'f', 'basic');
-		$html .= $this->cfgrad($id, 'f', 'standard');
-		$html .= $this->cfgrad($id, 'f', 'full');
-		$html .= $this->cfgrad($id, 'b', '', true);
-		$html .= $this->cfgrad($id, 'b', 'basic');
-		$html .= $this->cfgrad($id, 'b', 'standard');
-		$html .= $this->cfgrad($id, 'b', 'full');
+		$html = '<td style="text-align:left;padding-right:2em">'.$title.'</td>';
+		$html .= $this->cfgsel($id, 'f');
+		$html .= $this->cfgsel($id, 'b');
 		return $html;
 	}
 
-	private function cfgrad ($id, $fb, $val, $chk=false)
+	private function cfgsel ($id, $fb)
 	{
 		$vx = $fb.'_'.$id;
-		$html = '<td align="center"><input type="radio" name="'.$this->name.'['.$vx.']" value="'.$val.'"';
-		$html .= ($this->value[$vx] == $val) ? ' checked' : '';
-		return $html . ' /></td>';
+		$html = '<td align="center"><select name="'.$this->name.'['.$vx.']" class="rjckcsel">';
+		foreach ($this->pkgs as $v=>$d) {
+			$html .= '<option value="'.$v.'"';
+			$html .= (isset($this->value[$vx]) && $this->value[$vx] == $v) ? ' selected' : '';
+			$html .= '>'.$d.'</option>';
+		}
+		return $html . '</select></td>';
 	}
 
 	private function getGroups ()
