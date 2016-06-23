@@ -21,7 +21,7 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 
 	// extra (local) plugins
-	config.extraPlugins = 'autogrow,readmore';
+	config.extraPlugins = 'autogrow,readmore,uploadimage';
 
 	config.autoGrow_minHeight = 200;
 	config.autoGrow_maxHeight = 800;

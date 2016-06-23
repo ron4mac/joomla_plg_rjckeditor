@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = '';
 
 	// extra (local) plugins
-	config.extraPlugins = 'autogrow,readmore';
+	config.extraPlugins = 'autogrow,readmore,uploadimage';
 	config.autoGrow_minHeight = 200;
 	config.autoGrow_maxHeight = 800;
 	config.autoGrow_bottomSpace = 30;

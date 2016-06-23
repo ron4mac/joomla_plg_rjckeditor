@@ -39,6 +39,10 @@ class PlgEditorRJCkeditor extends JPlugin
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
 	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/index.php";
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/index.php?type=image";
+	CKEDITOR.config.filebrowserUploadUrl = "'.$plugBase.'fileman/php/dropload.php";
+
+	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
+	CKEDITOR.config.imageUploadUrl = "'.$plugBase.'fileman/php/dropload.php?type=image";
 </script>';
 	}
 
@@ -135,41 +139,12 @@ class PlgEditorRJCkeditor extends JPlugin
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
 		$html = array();
-		$html[]	= "<textarea name=\"$name\" class=\"ckeditor\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
+		$html[] = "<textarea name=\"$name\" class=\"ckeditor\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = 'CKEDITOR.on( "instanceReady", function( evt ) {';
 		$html[] = '	var editor = evt.editor;';
-		$html[] = '	console.log(CKEDITOR.config);';
-//		$html[] = 'CKEDITOR.replace( "'.$id.'", { extraPlugins: "rjimage" } );';
-//		$html[] = '	CKEDITOR.replace( "'.$id.'",';
-//		$html[] = '	{';
-//		$html[] = '		filebrowserBrowseUrl : "/browser/browse.php",';
-//		$html[] = '		filebrowserImageBrowseUrl : "/browser/browse.php?type=Images",';
-//		$html[] = '		filebrowserUploadUrl : "/uploader/upload.php",';
-//		$html[] = '		filebrowserImageUploadUrl : "/uploader/upload.php?type=Images"';
-//		$html[] = '	});';
-//		$html[] = '	console.log(evt);';
-//		$html[] = '(function() {';
-//		$html[] = '		var editor = CKEDITOR.use( "'.$id.'" );';
-//		$html[] = '		editor.setOption("extraKeys", {';
-//		$html[] = '			"Ctrl-Q": function(cm) {';
-//		$html[] = '				setFullScreen(cm, !isFullScreen(cm));';
-//		$html[] = '			},';
-//		$html[] = '			"Esc": function(cm) {';
-//		$html[] = '				if (isFullScreen(cm)) setFullScreen(cm, false);';
-//		$html[] = '			}';
-//		$html[] = '		});';
-//		$html[] = '		editor.on("gutterClick", function(cm, n) {';
-//		$html[] = '			var info = cm.lineInfo(n)';
-//		$html[] = '			cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
-//		$html[] = '		})';
-//		$html[] = '		function makeMarker() {';
-//		$html[] = '			var marker = document.createElement("div")';
-//		$html[] = '			marker.style.color = "#822"';
-//		$html[] = '			marker.innerHTML = "●"';
-//		$html[] = '			return marker';
-//		$html[] = '		}';
+//		$html[] = '	console.log(CKEDITOR.config);';
 		$html[] = '	Joomla.editors.instances[\'' . $id . '\'] = editor;';
 		$html[] = '})';
 		$html[] = '</script>';
