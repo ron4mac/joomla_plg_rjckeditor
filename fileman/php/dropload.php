@@ -6,11 +6,17 @@
  */
 //$dump = print_r($_GET,true);
 //$dump .= print_r($_POST,true);
+//$dump .= print_r($_COOKIE,true);
 //$dump .= print_r($_FILES,true);
 //file_put_contents('drop.log',$dump,FILE_APPEND);
 
 include '../system.inc.php';
 include 'functions.inc.php';
+
+define('CSRFT','ckCsrfToken');
+if (!(isset($_POST[CSRFT]) && isset($_COOKIE[CSRFT])) || ($_POST[CSRFT] != $_COOKIE[CSRFT])) {
+	header("HTTP/1.1 403 Forbidden" ); exit;
+}
 
 // !! should probably verify this
 //verifyAction('DROPLOAD');
