@@ -28,10 +28,10 @@ class PlgEditorRJCkeditor extends JPlugin
 		}
 		$ckpkg = $ckpkg ?: ($this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', ''));
 		$ckpkg = $ckpkg ?: $this->params->get('ck_package', 'standard');
-		$plugBase = JUri::root().'plugins/editors/rjckeditor/';
+		$plugBase = JUri::root(true).'/plugins/editors/rjckeditor/';
 		$doc = JFactory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
-		$doc->addScript($plugBase.'rjckeditor.js');
+		$doc->addScript($plugBase.'rjckeditor'.(JDEBUG ? '' : '.min').'.js');
 		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
 
 		return '<script type="text/javascript">
