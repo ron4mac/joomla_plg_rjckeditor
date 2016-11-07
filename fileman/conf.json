@@ -1,5 +1,6 @@
 {
 "FILES_ROOT":           "",
+"RETURN_URL_PREFIX":    "",
 "SESSION_PATH_KEY":     "RJCK_RFMR",
 "THUMBS_VIEW_WIDTH":    "140",
 "THUMBS_VIEW_HEIGHT":   "120",
@@ -31,5 +32,5 @@
 "LANG":                 "auto",
 "DATEFORMAT":           "dd/MM/yyyy HH:mm",
 "OPEN_LAST_DIR":        "yes",
-"RFM_VERSION":          "1.4.4"
+"RFM_VERSION":          "1.4.5"
 }

@@ -33,7 +33,10 @@ if(!$newPath)
 verifyPath($path);
 verifyPath($newPath);
 
-if(is_file(fixPath($path))){
+if(!RoxyFile::CanUploadFile(basename($newPath))) {
+	echo getErrorRes(t('E_FileExtensionForbidden'));
+}
+elseif(is_file(fixPath($path))){
   if(file_exists(fixPath($newPath)))
     echo getErrorRes(t('E_MoveFileAlreadyExists').' '.basename($newPath));
   elseif(rename(fixPath($path), fixPath($newPath)))
