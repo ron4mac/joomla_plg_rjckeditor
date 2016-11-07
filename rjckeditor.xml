@@ -23,7 +23,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="plugins/editors/rjckeditor/fields">
-				<field name="ck_version" type="ckedver"
+				<field name="ck_version" type="ckedver" default="4.5.9"
 					label="PLG_RJCKEDITOR_CKVER_LABEL"
 					description="PLG_RJCKEDITOR_CKVER_DESC"
 				>
