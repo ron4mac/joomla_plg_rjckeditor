@@ -484,4 +484,3 @@ else
 $FilesRoot = fixPath(getFilesPath());
 if(!is_dir($FilesRoot))
   @mkdir($FilesRoot, octdec(DIRPERMISSIONS));
-?>

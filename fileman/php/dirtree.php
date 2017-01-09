@@ -69,4 +69,3 @@ $tmp = getFilesNumber(fixPath(getFilesPath()), $type);
 echo '{"p":"'.  mb_ereg_replace('"', '\\"', getFilesPath()).'","f":"'.$tmp['files'].'","d":"'.$tmp['dirs'].'"}';
 GetDirs(getFilesPath(), $type);
 echo "\n]";
-?>

@@ -56,4 +56,3 @@ foreach ($files as $f){
 $str = mb_substr($str, 0, -1);
 echo $str;
 echo ']';
-?>

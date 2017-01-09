@@ -35,4 +35,3 @@ if(is_file(fixPath($path))){
   header('Content-Type: application/force-download');
   readfile(fixPath($path));
 }
-?>

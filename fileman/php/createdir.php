@@ -38,4 +38,3 @@ if(is_dir(fixPath($path))){
 }
 else
   echo  getErrorRes(t('E_CreateDirInvalidPath'));
-?>

@@ -52,4 +52,3 @@ else{
     echo '<script>alert("'.  addslashes(t('E_CreateArchive')).'");</script>';
   }
 }
-?>

@@ -1,4 +1,8 @@
 <?php
+/*
+ *	added to Roxy Fileman for use in RJCKEditor
+ *	provides for automatic image orientation
+ */
 
 function getMimeType ($filename)
 {
@@ -457,4 +461,3 @@ class Img_gd extends ImageTool
 	}
 
 }
-

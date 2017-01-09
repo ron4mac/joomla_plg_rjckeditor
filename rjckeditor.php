@@ -151,8 +151,8 @@ class PlgEditorRJCkeditor extends JPlugin
 
 		$session = JFactory::getSession();
 	////**** need to deal with image path for user/frontend/backend/admin etc. (may need to create path)
-		$rpath = JUri::root(true).'/images/';
-		if ($this->infront) $rpath .= JFactory::getUser()->id.'/';
+		$rpath = JUri::root(true).'/images';
+		if ($this->infront) $rpath .= '/'.JFactory::getUser()->id;
 		$session->set('RJCK_RFMR', $rpath);
 		return implode("\n", $html);
 	}

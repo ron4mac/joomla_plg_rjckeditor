@@ -43,4 +43,3 @@ if($w && $h)
   RoxyImage::CropCenter(fixPath($path), null, $w, $h);
 else 
   RoxyImage::Resize(fixPath($path), null, $w, $h);
-?>

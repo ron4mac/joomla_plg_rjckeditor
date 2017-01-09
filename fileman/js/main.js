@@ -814,7 +814,7 @@ function setFile(){
   }
   switch(getFilemanIntegration()){
       case 'ckeditor':
-      window.opener.CKEDITOR.tools.callFunction(RoxyUtils.GetUrlParam('CKEditorFuncNum'), insertPath);
+      window.opener.CKEDITOR.tools.callFunction(RoxyUtils.GetUrlParam('CKEditorFuncNum'), encodeURI(insertPath));
       self.close();
     break;
     case 'tinymce3':

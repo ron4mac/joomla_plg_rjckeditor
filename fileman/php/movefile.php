@@ -46,4 +46,3 @@ elseif(is_file(fixPath($path))){
 }
 else
   echo getErrorRes(t('E_MoveFileInvalisPath'));
-?>
