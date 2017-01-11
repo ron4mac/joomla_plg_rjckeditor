@@ -1,7 +1,7 @@
 <?php
 require_once 'php/security.inc.php';
 //**** make directory if it doesn't exist (this accomodates user files)
-@mkdir($_SERVER['DOCUMENT_ROOT'].$_SESSION['RJCK_RFMR'], 0755);
+@mkdir($_SERVER['DOCUMENT_ROOT'].$fPath, 0755);
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,6 +36,9 @@ require_once 'php/security.inc.php';
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="js/main.min.js"></script>
 <script type="text/javascript" src="js/jquery-dateFormat.min.js"></script>
+<script type="text/javascript">
+	var JROOT = "<?=$jRoot?>";
+</script>
 </head>
 <body>
 <table cellpadding="0" cellspacing="0" id="wraper">

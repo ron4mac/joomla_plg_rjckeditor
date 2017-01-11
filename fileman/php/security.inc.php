@@ -39,6 +39,9 @@ $session = JFactory::getSession();
 $_SESSION['RJCK_RFMR'] = $session->get('RJCK_RFMR');
 $_SESSION['RJCK_RFMR'] or die('No Access Allowed');
 
+list($jRoot,$fPath) = explode(':',$_SESSION['RJCK_RFMR']);
+$_SESSION['RJCK_RFMR'] = $jRoot.$fPath;
+
 function checkAccess($action){
   if(!session_id())
     session_start();

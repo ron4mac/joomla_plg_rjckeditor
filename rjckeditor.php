@@ -43,6 +43,9 @@ class PlgEditorRJCkeditor extends JPlugin
 
 	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 	CKEDITOR.config.imageUploadUrl = "'.$plugBase.'fileman/php/dropload.php?type=image";
+	CKEDITOR.config.baseHref = "'.JUri::root().'";
+
+	CKEDITOR.config.image2_alignClasses = [ "u-align-left", "u-align-center", "u-align-right" ];
 </script>';
 	}
 
@@ -151,9 +154,11 @@ class PlgEditorRJCkeditor extends JPlugin
 
 		$session = JFactory::getSession();
 	////**** need to deal with image path for user/frontend/backend/admin etc. (may need to create path)
-		$rpath = JUri::root(true).'/images';
+		$rpath = 'images';
 		if ($this->infront) $rpath .= '/'.JFactory::getUser()->id;
-		$session->set('RJCK_RFMR', $rpath);
+		$jroot = JUri::root(true);
+		$jroot .= ($jroot == '/' ? '' : '/');
+		$session->set('RJCK_RFMR', $jroot.':'.$rpath);
 		return implode("\n", $html);
 	}
 

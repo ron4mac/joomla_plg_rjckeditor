@@ -2016,6 +2016,8 @@ function setFile(){
     if(prefix.substr(-1) == '/')
       prefix = prefix.substr(0, prefix.length - 1);
     insertPath = prefix + (insertPath.substr(0, 1) != '/'? '/': '') + insertPath;
+  } else {
+  	insertPath = insertPath.slice(JROOT.length);
   }
   switch(getFilemanIntegration()){
       case 'ckeditor':
