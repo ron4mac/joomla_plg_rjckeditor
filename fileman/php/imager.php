@@ -8,7 +8,7 @@ function getMimeType ($filename)
 {
 	$mimetype = 'application/octet-stream';
 	if (function_exists('finfo_fopen')) {
-		$finfo = finfo_open(FILEINFO_MIME);
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
 		$mimetype = finfo_file($finfo, $filename);
 		finfo_close($finfo);
 	} elseif (function_exists('getimagesize')) {
