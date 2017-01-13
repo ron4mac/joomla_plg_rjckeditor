@@ -33,12 +33,13 @@ class PlgEditorRJCkeditor extends JPlugin
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$doc->addScript($plugBase.'rjckeditor'.(JDEBUG ? '' : '.min').'.js');
 		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
+		$fphp = JDEBUG ? 'dev' : 'index';
 
 		return '<script type="text/javascript">
 	CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
-	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/index.php";
-	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/index.php?type=image";
+	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php";
+	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php?type=image";
 	CKEDITOR.config.filebrowserUploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 
 	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
