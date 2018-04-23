@@ -52,7 +52,7 @@ if(is_dir(fixPath($path))){
       /* \\\\ RJCKEDITOR addition */
       if($isUploaded && RoxyFile::IsImage($filename)){
       	require_once 'imager.php';
-      	orient_and_make_thumb ($filePath);
+      	orient_and_make_thumb($filePath);
       }
       /* //// */
       if($isUploaded && RoxyFile::IsImage($filename) && (intval(MAX_IMAGE_WIDTH) > 0 || intval(MAX_IMAGE_HEIGHT) > 0)){

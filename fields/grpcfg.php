@@ -59,7 +59,8 @@ class JFormFieldGrpcfg extends JFormField
 	private function cfgsel ($id, $fb)
 	{
 		$vx = $fb.'_'.$id;
-		$html = '<td align="center"><select name="'.$this->name.'['.$vx.']" class="rjckcsel">';
+	//	$html = '<td align="center"><select name="'.$this->name.'['.$vx.']" class="rjckcsel">';
+		$html = '<td><select name="'.$this->name.'['.$vx.']" class="rjckcsel" style="width:120px">';
 		foreach ($this->pkgs as $v=>$d) {
 			$html .= '<option value="'.$v.'"';
 			$html .= (isset($this->value[$vx]) && $this->value[$vx] == $v) ? ' selected' : '';

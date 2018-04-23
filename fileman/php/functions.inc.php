@@ -21,6 +21,10 @@
   Contact: Lyubomir Arsov, liubo (at) web-lobby.com
 */
 include 'security.inc.php';
+function rxyLog($log){
+	return;
+	file_put_contents('ROXY.LOG',$log."\n",FILE_APPEND);
+}
 function t($key){
   global $LANG;
   if(empty($LANG)){
@@ -411,9 +415,13 @@ class RoxyImage{
     $h = $tmp[1];
     $r = $w / $h;
 
-    if($w <= ($width + 1) && (($h <= ($height + 1)) || (!$height && !$width))){
+    rxyLog('rszreq:'.$source.'>'.$destination.'@'.$width.':'.$height.':'.$w.':'.$h);
+
+    if ( (!$width || ($w <= $width)) && (!$height || ($h <= $height)) ) {
+//    if($w <= ($width + 1) && (($h <= ($height + 1)) || (!$height && !$width))){
       if($source != $destination)
         self::OutputImage($source, RoxyFile::GetExtension(basename($source)), $destination, $quality);
+        rxyLog('rszpass:'.$source.'>'.$destination.'@'.$width.':'.$height.':'.$w.':'.$h);
       return;
     }
     
@@ -432,6 +440,7 @@ class RoxyImage{
     imagecopyresampled($thumbImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $w, $h);
 
     self::OutputImage($thumbImg, RoxyFile::GetExtension(basename($source)), $destination, $quality);
+    rxyLog('resize:'.RoxyFile::GetExtension(basename($source)).'>'.$destination.'@'.$newWidth.':'.$newHeight.':'.$w.':'.$h);
   }
   public static function CropCenter($source, $destination, $width, $height, $quality = 90) {
     $tmp = getimagesize($source);

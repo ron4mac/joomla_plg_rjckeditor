@@ -1,6 +1,3 @@
-
-(function($) {
-
 // jam in top,right,bottom,left margin setting for inserted image
 
 CKEDITOR.on('dialogDefinition', function (ev) {
@@ -40,7 +37,7 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 			// Read attributes and update imagePreview;
 			dialog.commitContent(PREVIEW, dialog.preview);
 			return 0;
-		}
+		};
 
 		// function to commit changes internally
 
@@ -246,15 +243,9 @@ CKEDITOR.on('dialogDefinition', function (ev) {
 			]
 		}, 'txtBorder');
 
-		// this syntax chokes in Safari and others (I think "default" is reserved)
-		//imageInfoTab.get('txtBorder').default = '0';
-		
-		// this syntax works...
 		// set default border to zero
 		var imageTxtBorder = imageInfoTab.get('txtBorder');
 		imageTxtBorder['default'] = '0';
 
 	}
 });
-
-})(/*jQuery*/);

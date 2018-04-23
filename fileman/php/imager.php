@@ -68,6 +68,15 @@ class ImageTool {
 		8 => array(90, false)
 	);
 
+	public function iWidth ()
+	{
+		return $this->imginfo[0];
+	}
+	public function iHeight ()
+	{
+		return $this->imginfo[1];
+	}
+
 }
  
 class Img_imx extends ImageTool
