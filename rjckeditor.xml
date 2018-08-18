@@ -8,7 +8,7 @@
 	<authorUrl></authorUrl>
 	<copyright></copyright>
 	<license></license>
-	<updater jver=".*" pver="5.2" />
+	<updater jver=".*" pver="5.3" />
 	<description>PLG_RJCKEDITOR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="rjckeditor">rjckeditor.php</filename>
