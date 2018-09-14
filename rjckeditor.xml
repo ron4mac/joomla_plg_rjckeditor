@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="editors" method="upgrade">
 	<name>PLG_EDITORS_RJCKEDITOR</name>
-	<version>0.9.0</version>
+	<version>0.9.1</version>
 	<creationDate>November 2014</creationDate>
 	<author>Ron Crans</author>
 	<authorEmail>N/A</authorEmail>
@@ -24,7 +24,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="plugins/editors/rjckeditor/fields">
-				<field name="ck_version" type="ckedver" default="4.5.9"
+				<field name="ck_version" type="ckedver" default="4.7.3"
 					label="PLG_RJCKEDITOR_CKVER_LABEL"
 					description="PLG_RJCKEDITOR_CKVER_DESC"
 				>

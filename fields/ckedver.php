@@ -2,9 +2,9 @@
 // No direct access
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('combo');
 
-class JFormFieldCkedver extends JFormFieldList
+class JFormFieldCkedver extends JFormFieldCombo
 {
 	/**
 	 * The form field type.
@@ -35,6 +35,6 @@ class JFormFieldCkedver extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), array_slice($options, 0, 10));		//just return the last 10 releases
+		return array_merge(parent::getOptions(), array_slice($options, 0, 20));		//just return the last 20 releases
 	}
 }
