@@ -13,6 +13,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.autoGrow_maxHeight = 800;
 	config.autoGrow_bottomSpace = 30;
 
-	// allow 'readmore' content
-	config.extraAllowedContent = 'hr[id,class]';
+	// allow 'readmore' and 'pagebreak' content
+	config.extraAllowedContent = 'hr[id,class,title,alt]';
 };

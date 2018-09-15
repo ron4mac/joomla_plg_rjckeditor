@@ -10,6 +10,6 @@ CKEDITOR.editorConfig = function( config ) {
 	// extra (local) plugins
 	config.extraPlugins = 'readmore';
 
-	// allow 'readmore' content
-	config.extraAllowedContent = 'hr[id,class]';
+	// allow 'readmore' and 'pagebreak' content
+	config.extraAllowedContent = 'hr[id,class,title,alt]';
 };

@@ -23,6 +23,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// extra (local) plugins
 	config.extraPlugins = 'autogrow,readmore,uploadimage';
 
+	// allow 'readmore' and 'pagebreak' content
+	config.extraAllowedContent = 'hr[id,class,title,alt]';
+
 	config.autoGrow_minHeight = 200;
 	config.autoGrow_maxHeight = 800;
 	config.autoGrow_bottomSpace = 30;

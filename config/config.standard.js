@@ -23,6 +23,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// extra (local) plugins
 	config.extraPlugins = 'readmore';
 
+	// allow 'readmore' and 'pagebreak' content
+	config.extraAllowedContent = 'hr[id,class,title,alt]';
+
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 	config.removeButtons = '';

@@ -47,6 +47,9 @@ class PlgEditorRJCkeditor extends JPlugin
 	CKEDITOR.config.baseHref = "'.JUri::root().'";
 
 	CKEDITOR.config.image2_alignClasses = [ "u-align-left", "u-align-center", "u-align-right" ];
+	// add methods for xtd buttons
+	CKEDITOR.editor.prototype.getValue = function () { return this.getData(); };
+	CKEDITOR.editor.prototype.replaceSelection = function (val) { this.insertHtml(val); };
 </script>';
 	}
 
