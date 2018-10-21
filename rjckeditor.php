@@ -35,6 +35,9 @@ class PlgEditorRJCkeditor extends JPlugin
 		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
 		$fphp = JDEBUG ? 'dev' : 'index';
 
+		$editcss = '/templates/' . JFactory::getApplication()->getTemplate() . '/css/editor.css';
+		$tmpl_editor_css = file_exists(JPATH_BASE.$editcss) ? ('CKEDITOR.config.contentsCss = "'.$editcss.'";') : '';
+
 		return '<script type="text/javascript">
 	CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
@@ -42,6 +45,7 @@ class PlgEditorRJCkeditor extends JPlugin
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php?type=image";
 	CKEDITOR.config.filebrowserUploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 
+	'.$tmpl_editor_css.'
 	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 	CKEDITOR.config.imageUploadUrl = "'.$plugBase.'fileman/php/dropload.php?type=image";
 	CKEDITOR.config.baseHref = "'.JUri::root().'";
