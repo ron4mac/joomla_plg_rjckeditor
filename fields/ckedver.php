@@ -25,7 +25,7 @@ class JFormFieldCkedver extends JFormFieldCombo
 		$releases = json_decode($gits->read());
 		$gits->close();
 
-		$options = array();
+		$options = [];
 		foreach ($releases as $r) {
 			//if ($r->prerelease) continue;	// don't offer any prereleases
 			$tag = $r->name;

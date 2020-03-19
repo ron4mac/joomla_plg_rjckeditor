@@ -9,14 +9,14 @@ class JFormFieldGrpcfg extends JFormField
 	protected $classes = '';	//additional classes
 	protected $extras = '';		//additional attributes
 
-	protected $pkgs = array(
+	protected $pkgs = [
 			'' => 'Default',
 			'basic' => 'Basic',
 			'standard' => 'Standard',
 			'standard-all' => 'Standard(all)',
 			'full' => 'Full',
 			'full-all' => 'Full(all)'
-			);
+			];
 
 	public function __construct ($form = null)
 	{
