@@ -38,18 +38,37 @@ class PlgEditorRJCkeditor extends JPlugin
 		$editcss = '/templates/' . JFactory::getApplication()->getTemplate() . '/css/editor.css';
 		$tmpl_editor_css = file_exists(JPATH_BASE.$editcss) ? ('CKEDITOR.config.contentsCss = "'.$editcss.'";') : '';
 
+		// provide any custom templates that are in '/media/plg_rjckeditor/templates'
+		$tmplpath = JPATH_ROOT.'/media/plg_rjckeditor/templates/';
+		$tmpljs = '';
+		if (is_dir($tmplpath)) {
+			$tmplfiles = [];
+			$tmplates = [];
+			$basuri = JURI::root(true).'/media/plg_rjckeditor/templates/';
+			$fils = array_diff(scandir($tmplpath), ['..','.']);
+			foreach ($fils as $fil) {
+				if (substr($fil,-3)=='.js') {
+					$tmplfiles[] = $basuri.$fil;
+					$tmplates[] = substr($fil,0,-3);
+				}
+			}
+			if ($tmplates) {
+				$tmpljs .= 'CKEDITOR.config.templates_files = ["'.implode('","',$tmplfiles).'"];'."\n\t";
+				$tmpljs .= 'CKEDITOR.config.templates = "'.implode(',',$tmplates).'";';
+			}
+		}
+
 		return '<script type="text/javascript">
 	CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
 	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php";
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php?type=image";
 	CKEDITOR.config.filebrowserUploadUrl = "'.$plugBase.'fileman/php/dropload.php";
-
 	'.$tmpl_editor_css.'
 	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 	CKEDITOR.config.imageUploadUrl = "'.$plugBase.'fileman/php/dropload.php?type=image";
 	CKEDITOR.config.baseHref = "'.JUri::root().'";
-
+	'.$tmpljs.'
 	CKEDITOR.config.image2_alignClasses = [ "u-align-left", "u-align-center", "u-align-right" ];
 	// add methods for xtd buttons
 	CKEDITOR.editor.prototype.getValue = function () { return this.getData(); };

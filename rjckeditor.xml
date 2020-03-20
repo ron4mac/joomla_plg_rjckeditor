@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.3" type="plugin" group="editors" method="upgrade">
 	<name>PLG_EDITORS_RJCKEDITOR</name>
-	<version>0.9.3</version>
+	<version>0.9.4</version>
 	<creationDate>November 2014</creationDate>
 	<author>Ron Crans</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl></authorUrl>
-	<copyright></copyright>
+	<copyright>Copyright 2014-2020 RJCreations</copyright>
 	<license></license>
 	<updater jver="3.[3456789]" pver="7.0" />
 	<description>PLG_RJCKEDITOR_XML_DESCRIPTION</description>
