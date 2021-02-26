@@ -1,5 +1,13 @@
 <?php
+/**
+ * @package		plg_rjckeditor
+ * @copyright	Copyright (C) 2021 RJCreations. All rights reserved.
+ * @license		GNU General Public License version 3 or later; see LICENSE.txt
+ */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 class PlgEditorRJCkeditor extends JPlugin
 {
@@ -7,7 +15,7 @@ class PlgEditorRJCkeditor extends JPlugin
 
 	public function __construct (&$subject, $config = [])
 	{
-		$this->infront = JFactory::getApplication()->isSite();
+		$this->infront = Factory::getApplication()->isSite();
 		parent::__construct($subject, $config);
 	}
 
@@ -20,7 +28,7 @@ class PlgEditorRJCkeditor extends JPlugin
 	{
 		$ckver = $this->params->get('ck_version', '4.5.9');
 		$ckgrpcfg = get_object_vars($this->params->get('ck_grp_cfg', (object) ''));
-		$ugrps = JFactory::getUser()->groups;
+		$ugrps = Factory::getUser()->groups;
 		$ckpkg = '';
 		foreach($ugrps as $g=>$s) {
 			$cx = ($this->infront ? 'f' : 'b').'_'.$g;
@@ -29,14 +37,14 @@ class PlgEditorRJCkeditor extends JPlugin
 		$ckpkg = $ckpkg ?: ($this->infront ? $this->params->get('ck_package_fe', '') : $this->params->get('ck_package_be', ''));
 		$ckpkg = $ckpkg ?: $this->params->get('ck_package', 'standard');
 		$plugBase = JUri::root(true).'/plugins/editors/rjckeditor/';
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$doc->addScript($plugBase.'rjckeditor'.(JDEBUG ? '' : '.min').'.js');
-		setcookie('rjck_rfmr', JFactory::getApplication()->isAdmin(), 0, '/');
+		setcookie('rjck_rfmr', Factory::getApplication()->isAdmin(), 0, '/');
 		$fphp = JDEBUG ? 'dev' : 'index';
 
-		$editcss = '/templates/' . JFactory::getApplication()->getTemplate() . '/css/editor.css';
-		$tmpl_editor_css = file_exists(JPATH_BASE.$editcss) ? ('CKEDITOR.config.contentsCss = "'.$editcss.'";') : '';
+		$editcss = '/templates/' . Factory::getApplication()->getTemplate() . '/css/editor.css';
+		$tmpl_editor_css = file_exists(JPATH_BASE.$editcss) ? ('CKEDITOR.config.contentsCss = "'.JUri::base().$editcss.'";') : '';
 
 		// provide any custom templates that are in '/media/plg_rjckeditor/templates'
 		$tmplpath = JPATH_ROOT.'/media/plg_rjckeditor/templates/';
@@ -44,7 +52,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		if (is_dir($tmplpath)) {
 			$tmplfiles = [];
 			$tmplates = [];
-			$basuri = JURI::root(true).'/media/plg_rjckeditor/templates/';
+			$basuri = JUri::root(true).'/media/plg_rjckeditor/templates/';
 			$fils = array_diff(scandir($tmplpath), ['..','.']);
 			foreach ($fils as $fil) {
 				if (substr($fil,-3)=='.js') {
@@ -125,7 +133,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		// Do this only once.
 		if (!$done) {
 			$done = true;
-			$doc = JFactory::getDocument();
+			$doc = Factory::getDocument();
 			$js = "\n".'function jInsertEditorText (text, editor) { Joomla.editors.instances[editor].insertHtml(text); }'."\n";
 			$doc->addScriptDeclaration($js);
 		}
@@ -179,10 +187,10 @@ class PlgEditorRJCkeditor extends JPlugin
 		$html[] = '})';
 		$html[] = '</script>';
 
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 	////**** need to deal with image path for user/frontend/backend/admin etc. (may need to create path)
 		$rpath = 'images';
-		if ($this->infront) $rpath .= '/'.JFactory::getUser()->id;
+		if ($this->infront) $rpath .= '/'.Factory::getUser()->id;
 		$jroot = JUri::root(true);
 		$jroot .= ($jroot == '/' ? '' : '/');
 		$session->set('RJCK_RFMR', $jroot.':'.$rpath);
@@ -217,7 +225,7 @@ class PlgEditorRJCkeditor extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
 			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
+			$return .= LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
 		return $return;

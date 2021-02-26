@@ -1,5 +1,12 @@
 <?php
+/**
+ * @package		plg_rjckeditor
+ * @copyright	Copyright (C) 2021 RJCreations. All rights reserved.
+ * @license		GNU General Public License version 3 or later; see LICENSE.txt
+ */
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 class JFormFieldGrpcfg extends JFormField
 {
@@ -20,7 +27,7 @@ class JFormFieldGrpcfg extends JFormField
 
 	public function __construct ($form = null)
 	{
-		JFactory::getDocument()->addStyleDeclaration('#rjckgcfg th { text-align: center; }
+		Factory::getDocument()->addStyleDeclaration('#rjckgcfg th { text-align: center; }
 #rjckgcfg th, #rjckgcfg td { padding: 4px 4px; }
 .rjckcsel { width:auto; }');
 		parent::__construct($form);
@@ -71,7 +78,7 @@ class JFormFieldGrpcfg extends JFormField
 
 	private function getGroups ()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->setQuery('SELECT title,id FROM #__usergroups ORDER BY title');
 		return $db->loadAssocList();
 	}

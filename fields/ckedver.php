@@ -1,8 +1,15 @@
 <?php
-// No direct access
+/**
+ * @package		plg_rjckeditor
+ * @copyright	Copyright (C) 2021 RJCreations. All rights reserved.
+ * @license		GNU General Public License version 3 or later; see LICENSE.txt
+ */
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('combo');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('combo');
 
 class JFormFieldCkedver extends JFormFieldCombo
 {
@@ -20,7 +27,7 @@ class JFormFieldCkedver extends JFormFieldCombo
 	 */
 	protected function getOptions()
 	{
-		$gits = JFactory::getStream();
+		$gits = Factory::getStream();
 		$gits->open('https://api.github.com/repos/ckeditor/ckeditor-releases/tags');
 		$releases = json_decode($gits->read());
 		$gits->close();
