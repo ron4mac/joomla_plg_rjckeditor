@@ -26,7 +26,7 @@ include 'functions.inc.php';
 verifyAction('FILESLIST');
 checkAccess('FILESLIST');
 
-$path = (empty($_POST['d'])? getFilesPath(): $_POST['d']);
+$path = RoxyFile::FixPath(empty($_POST['d'])? getFilesPath(): $_POST['d']);
 $type = (empty($_POST['type'])?'':strtolower($_POST['type']));
 if($type != 'image' && $type != 'flash')
   $type = '';

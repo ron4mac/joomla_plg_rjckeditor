@@ -26,7 +26,7 @@ include 'functions.inc.php';
 verifyAction('DELETEFILE');
 checkAccess('DELETEFILE');
 
-$path = trim($_POST['f']);
+$path = RoxyFile::FixPath(trim($_POST['f']));
 verifyPath($path);
 
 if(is_file(fixPath($path))){
@@ -37,3 +37,4 @@ if(is_file(fixPath($path))){
 }
 else
   echo getErrorRes(t('E_DeleteFileInvalidPath'));
+?>

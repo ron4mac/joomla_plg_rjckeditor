@@ -29,7 +29,7 @@ header("Cache-Control: max-age=3600");
 verifyAction('GENERATETHUMB');
 checkAccess('GENERATETHUMB');
 
-$path = urldecode(empty($_GET['f'])?'':$_GET['f']);
+$path = RoxyFile::FixPath(urldecode(empty($_GET['f'])?'':$_GET['f']));
 verifyPath($path);
 
 @chmod(fixPath(dirname($path)), octdec(DIRPERMISSIONS));

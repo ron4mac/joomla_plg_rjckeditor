@@ -26,7 +26,7 @@ include 'functions.inc.php';
 verifyAction('DELETEDIR');
 checkAccess('DELETEDIR');
 
-$path = trim(empty($_GET['d'])?'':$_GET['d']);
+$path = RoxyFile::FixPath(trim(empty($_GET['d'])?'':$_GET['d']));
 verifyPath($path);
 
 if(is_dir(fixPath($path))){
@@ -41,3 +41,4 @@ if(is_dir(fixPath($path))){
 }
 else
   echo getErrorRes(t('E_DeleteDirInvalidPath').' '.$path);
+?>

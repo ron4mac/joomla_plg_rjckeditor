@@ -26,8 +26,8 @@ include 'functions.inc.php';
 verifyAction('RENAMEFILE');
 checkAccess('RENAMEFILE');
 
-$path = trim(empty($_POST['f'])?'':$_POST['f']);
-$name = trim(empty($_POST['n'])?'':$_POST['n']);
+$path = RoxyFile::FixPath(trim(empty($_POST['f'])?'':$_POST['f']));
+$name = RoxyFile::FixPath(trim(empty($_POST['n'])?'':$_POST['n']));
 verifyPath($path);
 
 if(is_file(fixPath($path))){

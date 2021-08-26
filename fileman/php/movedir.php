@@ -26,8 +26,8 @@ include 'functions.inc.php';
 verifyAction('MOVEDIR');
 checkAccess('MOVEDIR');
 
-$path = trim(empty($_GET['d'])?'':$_GET['d']);
-$newPath = trim(empty($_GET['n'])?'':$_GET['n']);
+$path = RoxyFile::FixPath(trim(empty($_GET['d'])?'':$_GET['d']));
+$newPath = RoxyFile::FixPath(trim(empty($_GET['n'])?'':$_GET['n']));
 verifyPath($path);
 verifyPath($newPath);
 

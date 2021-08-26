@@ -26,8 +26,8 @@ include 'functions.inc.php';
 verifyAction('MOVEFILE');
 checkAccess('MOVEFILE');
 
-$path = trim(empty($_POST['f'])?'':$_POST['f']);
-$newPath = trim(empty($_POST['n'])?'':$_POST['n']);
+$path = RoxyFile::FixPath(trim(empty($_POST['f'])?'':$_POST['f']));
+$newPath = RoxyFile::FixPath(trim(empty($_POST['n'])?'':$_POST['n']));
 if(!$newPath)
   $newPath = getFilesPath();
 verifyPath($path);
@@ -44,5 +44,6 @@ elseif(is_file(fixPath($path))){
   else
     echo getErrorRes(t('E_MoveFile').' '.basename($path));
 }
-else
+else {
   echo getErrorRes(t('E_MoveFileInvalisPath'));
+}

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.3" type="plugin" group="editors" method="upgrade">
 	<name>PLG_EDITORS_RJCKEDITOR</name>
-	<version>0.9.5</version>
-	<creationDate>February 2021</creationDate>
+	<version>0.9.6</version>
+	<creationDate>August 2021</creationDate>
 	<author>Ron Crans</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl></authorUrl>
-	<copyright>Copyright 2014-2021 RJCreations</copyright>
+	<copyright>(C) 2014-2021 RJCreations, all rights reserved</copyright>
 	<license></license>
-	<updater jver="3\.[3456789]" pver="7.0" />
+	<updater jver="[34]\.[0123456789]" pver="7.0" />
 	<description>PLG_RJCKEDITOR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="rjckeditor">rjckeditor.php</filename>

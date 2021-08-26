@@ -26,8 +26,8 @@ include 'functions.inc.php';
 verifyAction('COPYFILE');
 checkAccess('COPYFILE');
 
-$path = trim(empty($_POST['f'])?'':$_POST['f']);
-$newPath = trim(empty($_POST['n'])?'':$_POST['n']);
+$path = RoxyFile::FixPath(trim(empty($_POST['f'])?'':$_POST['f']));
+$newPath = RoxyFile::FixPath(trim(empty($_POST['n'])?'':$_POST['n']));
 if(!$newPath)
   $newPath = getFilesPath();
 
@@ -43,3 +43,4 @@ if(is_file(fixPath($path))){
 }
 else
   echo getErrorRes(t('E_CopyFileInvalisPath'));
+?>

@@ -28,10 +28,10 @@ require_once 'php/security.inc.php';
   Contact: Lyubomir Arsov, liubo (at) web-lobby.com
 -->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>File Manager</title>
+<title>File manager</title>
 <link href="css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet" type="text/css" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="js/filetypes.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>

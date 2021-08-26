@@ -26,7 +26,7 @@ include 'functions.inc.php';
 verifyAction('DOWNLOADDIR');
 checkAccess('DOWNLOADDIR');
 
-$path = trim($_GET['d']);
+$path = RoxyFile::FixPath(trim($_GET['d']));
 verifyPath($path);
 $path = fixPath($path);
 

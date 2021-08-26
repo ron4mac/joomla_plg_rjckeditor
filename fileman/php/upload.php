@@ -27,7 +27,7 @@ verifyAction('UPLOAD');
 checkAccess('UPLOAD');
 
 $isAjax = (isset($_POST['method']) && $_POST['method'] == 'ajax');
-$path = trim(empty($_POST['d'])?getFilesPath():$_POST['d']);
+$path = RoxyFile::FixPath(trim(empty($_POST['d'])?getFilesPath():$_POST['d']));
 verifyPath($path);
 $res = '';
 if(is_dir(fixPath($path))){

@@ -7,6 +7,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('combo');
@@ -37,7 +38,7 @@ class JFormFieldCkedver extends JFormFieldCombo
 			//if ($r->prerelease) continue;	// don't offer any prereleases
 			$tag = $r->name;
 			if (preg_match('/standard\/(\d+\.\d+\.\d+)/', $tag, $m)) {
-				$options[] = JHtml::_('select.option', $m[1], $m[1]);
+				$options[] = HTMLHelper::_('select.option', $m[1], $m[1]);
 			}
 		}
 
