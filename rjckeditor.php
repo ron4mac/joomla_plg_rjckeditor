@@ -7,15 +7,17 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Event\Event;
 
-class PlgEditorRJCkeditor extends JPlugin
+class PlgEditorRJCkeditor extends CMSPlugin
 {
 	protected $infront = false;
 
 	public function __construct (&$subject, $config = [])
 	{
-		$this->infront = Factory::getApplication()->isSite();
+		$this->infront = Factory::getApplication()->isClient('site');
 		parent::__construct($subject, $config);
 	}
 
@@ -40,7 +42,7 @@ class PlgEditorRJCkeditor extends JPlugin
 		$doc = Factory::getDocument();
 		$doc->addScript('//cdn.ckeditor.com/'.$ckver.'/'.$ckpkg.'/ckeditor.js');
 		$doc->addScript($plugBase.'rjckeditor'.(JDEBUG ? '' : '.min').'.js');
-		setcookie('rjck_rfmr', Factory::getApplication()->isAdmin(), 0, '/');
+		setcookie('rjck_rfmr', Factory::getApplication()->isClient('administrator'), 0, '/');
 		$fphp = JDEBUG ? 'dev' : 'index';
 
 		$editcss = '/templates/' . Factory::getApplication()->getTemplate() . '/css/editor.css';
@@ -209,26 +211,41 @@ class PlgEditorRJCkeditor extends JPlugin
 	 */
 	protected function _displayButtons ($name, $buttons, $asset, $author)
 	{
-		$return = '';
-
-		$args = ['name' => $name, 'event' => 'onGetInsertMethod'];
-
-		$results = (array) $this->update($args);
-
-		if ($results) {
-			foreach ($results as $result) {
-				if (is_string($result) && trim($result)) {
-					$return .= $result;
+		if ((int)JVERSION < 4) {
+			$return = '';
+			$args = ['name' => $name, 'event' => 'onGetInsertMethod'];
+	
+			$results = (array) $this->update($args);
+	
+			if ($results) {
+				foreach ($results as $result) {
+					if (is_string($result) && trim($result)) {
+						$return .= $result;
+					}
 				}
 			}
+	
+			if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
+				$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+				$return .= LayoutHelper::render('joomla.editors.buttons', $buttons);
+			}
+	
+			return $return;
 		}
-
+		
 		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
-			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
-			$return .= LayoutHelper::render('joomla.editors.buttons', $buttons);
+			$buttonsEvent = new Event(
+				'getButtons',
+				['editor' => $name, 'buttons' => $buttons]
+			);
+
+			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
+			$buttons = $buttonsResult['result'];
+
+			return LayoutHelper::render('joomla.editors.buttons', $buttons);
 		}
 
-		return $return;
+		return '';
 	}
 
 }
