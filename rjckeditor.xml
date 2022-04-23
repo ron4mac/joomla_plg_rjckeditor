@@ -8,7 +8,7 @@
 	<authorUrl></authorUrl>
 	<copyright>(C) 2014-2021 RJCreations, all rights reserved</copyright>
 	<license></license>
-	<updater jver="[34]\.[0123456789]" pver="7.0" />
+	<updater jver="(3\.[89])||(3\.1\d)||(4\.[01])" pver="7.0" />
 	<description>PLG_RJCKEDITOR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="rjckeditor">rjckeditor.php</filename>
