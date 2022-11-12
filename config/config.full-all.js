@@ -4,7 +4,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.uiColor = '#AADC6E';
 	config.filebrowserWindowWidth = 800;
 	config.filebrowserWindowHeight = '50%';
-	config.removePlugins = 'about,bidi,iframe,flash,font,language,preview,save,smiley';
+	config.removePlugins = 'about,bidi,iframe,flash,font,language,exportpdf,print,preview,save,smiley';
 	config.removeButtons = '';
 
 	// extra (local) plugins

@@ -426,12 +426,12 @@ class RoxyImage{
       $newWidth = intval($newHeight * $r);
     }
 
-    $thumbImg = imagecreatetruecolor($newWidth, $newHeight);
+    $thumbImg = imagecreatetruecolor((int)$newWidth, (int)$newHeight);
     $img = self::GetImage($source);
     
     $thumbImg = self::SetAlpha($thumbImg, $source);
     
-    imagecopyresampled($thumbImg, $img, 0, 0, 0, 0, $newWidth, $newHeight, $w, $h);
+    imagecopyresampled($thumbImg, $img, 0, 0, 0, 0, (int)$newWidth, (int)$newHeight, $w, $h);
 
     self::OutputImage($thumbImg, RoxyFile::GetExtension(basename($source)), $destination, $quality);
   }
@@ -471,7 +471,7 @@ class RoxyImage{
     
     $thumbImg = self::SetAlpha($thumbImg, $source);
     
-    imagecopyresampled($thumbImg, $img, 0, 0, $x, $y, $width, $height, $cropWidth, $cropHeight);
+    imagecopyresampled($thumbImg, $img, 0, 0, $x, $y, $width, $height, (int)$cropWidth, (int)$cropHeight);
 
     self::OutputImage($thumbImg, RoxyFile::GetExtension(basename($source)), $destination, $quality);
   }

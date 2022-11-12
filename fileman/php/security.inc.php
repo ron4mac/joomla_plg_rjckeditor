@@ -22,6 +22,7 @@
 */
 
 define('_JEXEC', 1);
+
 $JPB = realpath(dirname(__FILE__).'/../../../../../');
 $APP = 'site';
 if (isset($_COOKIE['rjck_rfmr']) && $_COOKIE['rjck_rfmr']) {
@@ -30,12 +31,25 @@ if (isset($_COOKIE['rjck_rfmr']) && $_COOKIE['rjck_rfmr']) {
 }
 define('JPATH_BASE', $JPB);
  
-require_once ( JPATH_BASE. '/includes/defines.php' );
-require_once ( JPATH_BASE. '/includes/framework.php' );
-$mainframe = JFactory::getApplication($APP);
-$mainframe->initialise();
+require_once JPATH_BASE.'/includes/defines.php';
+require_once JPATH_BASE.'/includes/framework.php';
 
-$session = JFactory::getSession();
+use \Joomla\CMS\Factory; 
+use \Joomla\CMS\Table\Table;
+
+$container = Factory::getContainer();
+$container->alias('session.web', 'session.web.site')
+->alias('session', 'session.web.site')
+->alias('JSession', 'session.web.site')
+->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
+->alias(\Joomla\Session\Session::class, 'session.web.site')
+->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
+$app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
+Factory::$application = $app;
+
+$app->setHeader('Cross-Origin-Opener-Policy','same-origin-allow-popups',true);
+
+$session = Factory::getSession();
 $_SESSION['RJCK_RFMR'] = $session->get('RJCK_RFMR');
 $_SESSION['RJCK_RFMR'] or die('No Access Allowed');
 
@@ -43,6 +57,6 @@ list($jRoot,$fPath) = explode(':',$_SESSION['RJCK_RFMR']);
 $_SESSION['RJCK_RFMR'] = $jRoot.$fPath;
 
 function checkAccess($action){
-  if(!session_id())
+  if (!session_id())
     session_start();
 }

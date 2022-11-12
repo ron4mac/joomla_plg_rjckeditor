@@ -21,14 +21,14 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 
 	// extra (local) plugins
-	config.extraPlugins = 'readmore';
+	config.extraPlugins = 'autogrow,readmore';
 
 	// allow 'readmore' and 'pagebreak' content
 	config.extraAllowedContent = 'hr[id,class,title,alt]';
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = '';
+	config.removeButtons = 'Strike,Subscript,Superscript';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';

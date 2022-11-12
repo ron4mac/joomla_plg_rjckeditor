@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		plg_rjckeditor
- * @copyright	Copyright (C) 2021 RJCreations. All rights reserved.
+ * @copyright	Copyright (C) 2022 RJCreations. All rights reserved.
  * @license		GNU General Public License version 3 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -17,7 +17,9 @@ class PlgEditorRJCkeditor extends CMSPlugin
 
 	public function __construct (&$subject, $config = [])
 	{
-		$this->infront = Factory::getApplication()->isClient('site');
+		$app = Factory::getApplication();
+		$app->setHeader('Cross-Origin-Opener-Policy','same-origin-allow-popups',true);
+		$this->infront = $app->isClient('site');
 		parent::__construct($subject, $config);
 	}
 
@@ -68,12 +70,12 @@ class PlgEditorRJCkeditor extends CMSPlugin
 			}
 		}
 
-		return '<script type="text/javascript">
-	CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
+		$js = 'CKEDITOR.plugins.addExternal("readmore", "'.$plugBase.'plugins/readmore/", "plugin.js");
 	CKEDITOR.config.customConfig = "'.$plugBase.'config/config.'.$ckpkg.'.js";
 	CKEDITOR.config.filebrowserBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php";
 	CKEDITOR.config.filebrowserImageBrowseUrl = "'.$plugBase.'fileman/'.$fphp.'.php?type=image";
 	CKEDITOR.config.filebrowserUploadUrl = "'.$plugBase.'fileman/php/dropload.php";
+	CKEDITOR.config.filebrowserWindowFeatures = "popup";
 	'.$tmpl_editor_css.'
 	CKEDITOR.config.uploadUrl = "'.$plugBase.'fileman/php/dropload.php";
 	CKEDITOR.config.imageUploadUrl = "'.$plugBase.'fileman/php/dropload.php?type=image";
@@ -82,8 +84,8 @@ class PlgEditorRJCkeditor extends CMSPlugin
 	CKEDITOR.config.image2_alignClasses = [ "u-align-left", "u-align-center", "u-align-right" ];
 	// add methods for xtd buttons
 	CKEDITOR.editor.prototype.getValue = function () { return this.getData(); };
-	CKEDITOR.editor.prototype.replaceSelection = function (val) { this.insertHtml(val); };
-</script>';
+	CKEDITOR.editor.prototype.replaceSelection = function (val) { this.insertHtml(val); };';
+		$doc->addScriptDeclaration($js);
 	}
 
 	/**
